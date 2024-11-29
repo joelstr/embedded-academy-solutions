@@ -31,7 +31,10 @@ static int16_t AdcHigh()
 	int16_t rawValue = 0;
 	int16_t mV = 0;
 
+	// Start ADC conversion
 	ADC1->CR |= ADC_CR_ADSTART;
+
+	// Read data register
 	rawValue = ADC1->DR;
 
 	mV = ADREF * rawValue >> 12;
@@ -47,13 +50,19 @@ void AdcInit()
 {
 	__HAL_RCC_ADC1_CLK_ENABLE();
 
+	// Enable voltage regulator
 	ADC1->CR &= (ADC_CR_ADVREGEN_1);
 	ADC1->CR &= (~ADC_CR_ADVREGEN);
 	ADC1->CR |= ADC_CR_ADVREGEN_0;
 	osDelay(1);
 
+	// Add channel to sequence register
 	ADC1->SQR1 |= ADC_SQR1_SQ1_0;
+
+	// Enable ADC
 	ADC1->CR |= (ADC_CR_ADEN);
+
+	// Wait for ADC ready
 	while (!(ADC1->ISR & ADC_ISR_ADRDY))
 	{
 
