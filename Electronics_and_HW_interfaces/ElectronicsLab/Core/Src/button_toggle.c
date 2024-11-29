@@ -52,7 +52,7 @@ void AdcInit()
 	ADC1->CR |= ADC_CR_ADVREGEN_0;
 	osDelay(1);
 
-	ADC1->SQR1 = (ADC1->SQR1 & (~((((0x1FUL << (0U))) << (6U))))) | ((1U << (6U)));
+	ADC1->SQR1 |= ADC_SQR1_SQ1_0;
 	ADC1->CR |= (ADC_CR_ADEN);
 	while (!(ADC1->ISR & ADC_ISR_ADRDY))
 	{
